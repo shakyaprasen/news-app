@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog" persistent max-width="600px">
       <v-card>
         <v-card-title>
-          <span class="headline">News Title</span>
+          <span class="headline">Change Title </span>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -30,7 +30,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="hide">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="hide" :disabled="!valid">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="save" :disabled="!valid">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -39,10 +39,16 @@
 
 <script>
 
-const MAX_CHAR = 30;
+const MAX_CHAR = 50;
 
 export default {
   name: 'TitleRenameModal',
+  props: {
+    newsTitle: {
+      type: String,
+      required: true,
+    },
+  },
   watch: {
     dialog: {
       immediate: true,
@@ -74,10 +80,15 @@ export default {
     },
     show() {
       this.dialog = true;
+      this.title = this.newsTitle;
     },
     reset() {
       this.title = '';
       this.valid = true;
+    },
+    save() {
+      this.hide();
+      this.$emit('saved', this.title);
     },
   },
 };

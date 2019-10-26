@@ -2,7 +2,11 @@
   <v-app>
     <v-app-bar app>
       <v-toolbar-title class="headline text-uppercase">
-        <v-btn text tile href="/">News APP</v-btn>
+        <router-link :to="{ name: 'list' }">
+          <v-btn text tile>
+            News App
+          </v-btn>
+        </router-link>
       </v-toolbar-title>
     </v-app-bar>
 
@@ -24,14 +28,22 @@
             label="Search Text"
           ></v-text-field>
         </v-col>
-        <v-col cols="4" class="d-flex align-center">
+        <v-col cols="1" class="d-flex align-center">
           <v-btn color="primary" @click="clearSource">
             Clear
           </v-btn>
         </v-col>
+        <v-col cols="2" class="d-flex align-center">
+          <v-btn color="red" @click="sendWrongAPI">
+            ERROR API
+          </v-btn>
+        </v-col>
       </v-row>
       <v-row>
-        <router-view />
+        <router-view
+          :details="selectedNews"
+          @detail="handleShowDetail"
+        />
       </v-row>
     </v-content>
   </v-app>
@@ -40,12 +52,15 @@
 <script>
 
 import { mapState, mapActions } from 'vuex';
+import { errorCall } from './api/calls';
+import { SUCCESSFUL_CALL } from './store/consts';
 
 export default {
   name: 'App',
   data: () => ({
     source: '',
     searchKey: '',
+    selectedNews: {},
   }),
   watch: {
     source(newsSource) {
@@ -64,7 +79,8 @@ export default {
     sources: state => state.sources,
   }),
   created() {
-    this.fetchNewsAndSources();
+    this.fetchNewsAndSources()
+      .catch(error => this.$toastr.e(error));
   },
   methods: {
     ...mapActions(['fetchNewsAndSources', 'fetchNewsFromSource']),
@@ -74,7 +90,21 @@ export default {
       this.filterFromNewsList();
     },
     filterFromNewsList() {
-      this.fetchNewsFromSource({ source: this.source, searchKey: this.searchKey });
+      this.fetchNewsFromSource({ source: this.source, searchKey: this.searchKey })
+        .catch(error => this.$toastr.e(error));
+    },
+    sendWrongAPI() {
+      return errorCall()
+        .then(res => res.json())
+        .then((response) => {
+          if (response.status !== SUCCESSFUL_CALL) {
+            this.$toastr.e(response.message, response.code);
+          }
+        })
+        .catch(error => this.$toastr.e(error.message));
+    },
+    handleShowDetail(detail) {
+      this.selectedNews = detail;
     },
   },
 };

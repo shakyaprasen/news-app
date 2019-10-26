@@ -1,5 +1,5 @@
 <template>
-  <v-hover>
+  <v-hover :title="newsData.title">
     <template v-slot:default="{ hover }">
       <v-card class="d-inline-block mx-auto">
         <v-container>
@@ -7,11 +7,6 @@
             <v-col cols="auto" class="font-weight-bold truncate">
               {{ newsData.title }}
             </v-col>
-            <!-- <v-col class="px-2 py-0 d-flex justify-end align-center">
-              <v-btn icon :href="`/#/news-detail/${index}`">
-                <v-icon>mdi-arrow-right-box</v-icon>
-              </v-btn>
-            </v-col> -->
           </v-row>
           <v-row justify="space-between">
             <v-col cols="auto">
@@ -29,7 +24,7 @@
             absolute
             color="#036358"
           >
-            <v-btn :href="`/#/news-detail/${index}`">Details</v-btn>
+            <v-btn @click="showDetails">Details</v-btn>
           </v-overlay>
         </v-fade-transition>
       </v-card>
@@ -48,6 +43,12 @@ export default {
     index: {
       type: Number,
       required: true,
+    },
+  },
+  methods: {
+    showDetails() {
+      this.$emit('selected', this.newsData);
+      this.$router.push({ name: 'news:detail' });
     },
   },
 };

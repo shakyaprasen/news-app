@@ -1,19 +1,23 @@
 <template>
   <v-container class="px-6 grey lighten-5 detail-container" fluid>
     <v-row
-      class="mb-4"
+      class="mb-1"
       justify="center"
       no-gutters
     >
       <v-col>
         <details-tool-bar
+          :details="titleAndUrl"
           @edit="showRenameModal"
         />
       </v-col>
     </v-row>
+    <v-row class="mb-4">
+      <v-col><i>{{ details.author }}</i></v-col>
+    </v-row>
     <v-img
-      src="https://picsum.photos/id/11/500/300"
-      lazy-src="https://picsum.photos/id/11/10/6"
+      v-if="details.urlToImage"
+      :src="details.urlToImage"
       aspect-ratio="1"
       class="grey lighten-2"
       max-height="400"
@@ -26,22 +30,15 @@
     >
       <v-col>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          Harum maiores modi quidem veniam,
-          expedita quis laboriosam, ullam facere adipisci, iusto,
-          voluptate sapiente corrupti asperiores rem nemo numquam fuga ab at
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          Harum maiores modi quidem veniam, expedita quis laboriosam,
-          ullam facere adipisci, iusto,
-          voluptate sapiente corrupti asperiores rem nemo numquam fuga ab at.
+          {{ details.content }}
         </p>
       </v-col>
     </v-row>
     <title-rename-modal
       v-if="mountRenameModal"
       ref="renameModal"
+      :news-title="titleAndUrl.title"
+      @saved="newTitleHandler"
     />
   </v-container>
 </template>
@@ -56,9 +53,26 @@ export default {
     DetailsToolBar,
     TitleRenameModal: () => import('../components/TitleRenameModal.vue'),
   },
+  props: {
+    details: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   data: () => ({
     mountRenameModal: false,
+    newTitle: '',
   }),
+  computed: {
+    titleAndUrl() {
+      return { title: this.newTitle || this.details.title, url: this.details.url };
+    },
+  },
+  created() {
+    if (!this.details || !Object.keys(this.details).length) {
+      this.$router.push({ name: 'list' });
+    }
+  },
   methods: {
     showRenameModal() {
       if (this.mountRenameModal) {
@@ -66,6 +80,9 @@ export default {
       } else {
         this.mountRenameModal = true;
       }
+    },
+    newTitleHandler(title) {
+      this.newTitle = title;
     },
   },
 };

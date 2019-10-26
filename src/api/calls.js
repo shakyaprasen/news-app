@@ -9,3 +9,7 @@ export function getNewsFromSource(apiKey, { source, searchKey }) {
 export function getSources(apiKey) {
   return fetch(`https://newsapi.org/v2/sources?apiKey=${apiKey}`);
 }
+
+export function errorCall() {
+  return fetch('https://newsapi.org/v2/sources?apiKey');
+}
