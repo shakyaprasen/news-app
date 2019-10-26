@@ -2,11 +2,11 @@
   <v-card class="d-inline-block mx-auto">
     <v-container>
       <v-row>
-        <v-col cols="auto" class="font-weight-bold">
-          News Headline
+        <v-col cols="auto" class="font-weight-bold truncate">
+          {{ newsData.title }}
         </v-col>
         <v-col class="px-2 py-0 d-flex justify-end align-center">
-          <v-btn icon href="/#/news-detail/1">
+          <v-btn icon :href="`/#/news-detail/${index}`">
             <v-icon>mdi-arrow-right-box</v-icon>
           </v-btn>
         </v-col>
@@ -16,7 +16,7 @@
           <v-img
             height="200"
             width="250"
-            src="https://cdn.vuetifyjs.com/images/cards/store.jpg"
+            :src="newsData.urlToImage || ''"
           ></v-img>
         </v-col>
       </v-row>
@@ -27,5 +27,24 @@
 <script>
 export default {
   name: 'NewsCard',
+  props: {
+    newsData: {
+      type: Object,
+      required: true,
+    },
+    index: {
+      type: Number,
+      required: true,
+    },
+  },
 };
 </script>
+
+<style scoped>
+.truncate {
+  width: 225px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+</style>
