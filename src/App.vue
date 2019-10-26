@@ -7,7 +7,7 @@
     </v-app-bar>
 
     <v-content id="sources">
-      <v-row >
+      <v-row v-if="$route.name === 'list'">
         <v-col cols="4" class="pl-5">
           <v-overflow-btn
             :items="sources"
@@ -25,7 +25,7 @@
           ></v-text-field>
         </v-col>
         <v-col cols="4" class="d-flex align-center">
-          <v-btn @click="clearSource">
+          <v-btn color="primary" @click="clearSource">
             Clear
           </v-btn>
         </v-col>
