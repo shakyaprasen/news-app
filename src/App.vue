@@ -97,7 +97,6 @@ export default {
     history: state => state.history,
   }),
   created() {
-    console.log(process.env.VUE_APP_TITLE);
     this.fetchNewsAndSources()
       .catch(error => this.$toastr.e(error));
   },
