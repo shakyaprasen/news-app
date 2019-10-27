@@ -4,6 +4,7 @@ import {
   SET_NEWS_ARTICLES,
   SET_SOURCES,
   SUCCESSFUL_CALL,
+  UPDATE_HISTORY,
 } from './consts';
 
 
@@ -43,5 +44,9 @@ export default {
   },
   fetchNewsAndSources({ dispatch }) {
     return Promise.all([dispatch('fetchNewsList'), dispatch('fetchNewsSources')]);
+  },
+  updateHistory({ commit, state }, index) {
+    const article = state.newsList[index];
+    commit(UPDATE_HISTORY, article);
   },
 };

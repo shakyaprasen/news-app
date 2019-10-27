@@ -33,6 +33,9 @@
 </template>
 
 <script>
+
+import { mapActions } from 'vuex';
+
 export default {
   name: 'NewsCard',
   props: {
@@ -46,7 +49,9 @@ export default {
     },
   },
   methods: {
+    ...mapActions(['updateHistory']),
     showDetails() {
+      this.updateHistory(this.index);
       this.$emit('selected', this.newsData);
       this.$router.push({ name: 'news:detail' });
     },

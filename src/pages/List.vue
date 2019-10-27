@@ -5,7 +5,7 @@
     <news-card
       v-for="(news, index) in newsList"
       :key="index"
-      :index="index+1"
+      :index="index"
       :news-data="news"
       class="ml-4 mt-3"
       @selected="emitSelected"

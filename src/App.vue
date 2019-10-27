@@ -40,10 +40,27 @@
         </v-col>
       </v-row>
       <v-row>
-        <router-view
-          :details="selectedNews"
-          @detail="handleShowDetail"
-        />
+        <v-col cols="3" class="pl-5">
+          <v-list>
+            <v-subheader><b>HISTORY</b></v-subheader>
+            <v-list-item
+              v-for="(item, i) in history"
+              :key="i"
+            >
+              <v-list-item-content>
+                <v-list-item-title>
+                  <span :title="item.title">{{ item.title }}</span>
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-col>
+        <v-col>
+          <router-view
+            :details="selectedNews"
+            @detail="handleShowDetail"
+          />
+        </v-col>
       </v-row>
     </v-content>
   </v-app>
@@ -77,8 +94,10 @@ export default {
   computed: mapState({
     newsList: state => state.newsList,
     sources: state => state.sources,
+    history: state => state.history,
   }),
   created() {
+    console.log(process.env.VUE_APP_TITLE);
     this.fetchNewsAndSources()
       .catch(error => this.$toastr.e(error));
   },
@@ -87,7 +106,7 @@ export default {
     clearSource() {
       this.source = '';
       this.searchKey = '';
-      this.filterFromNewsList();
+      this.fetchNewsAndSources();
     },
     filterFromNewsList() {
       this.fetchNewsFromSource({ source: this.source, searchKey: this.searchKey })
