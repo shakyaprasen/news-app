@@ -7,7 +7,7 @@
       :key="index"
       :index="index"
       :news-data="news"
-      class="ml-4 mt-3"
+      class="ml-4 mb-3"
       @selected="emitSelected"
     />
   </v-layout>

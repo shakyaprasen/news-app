@@ -39,9 +39,9 @@
             ERROR API
           </v-btn>
         </v-col>
-      </v-row>
+        </v-row>
       <v-row>
-        <v-col cols="12" md="3" lg="3" xl="3" class="pl-5">
+        <v-col cols="12" md="2" lg="3" xl="3" class="pl-5">
           <v-list>
             <v-subheader><b>HISTORY</b></v-subheader>
             <v-list-item
