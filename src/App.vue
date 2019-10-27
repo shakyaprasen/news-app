@@ -11,6 +11,7 @@
     </v-app-bar>
 
     <v-content id="sources">
+      <loading :loading="loading" />
       <v-row v-if="$route.name === 'list'">
         <v-col cols="4" class="pl-5">
           <v-overflow-btn
@@ -71,9 +72,11 @@
 import { mapState, mapActions } from 'vuex';
 import { errorCall } from './api/calls';
 import { SUCCESSFUL_CALL } from './store/consts';
+import LoadingMixin from './mixins';
 
 export default {
   name: 'App',
+  mixins: [LoadingMixin],
   data: () => ({
     source: '',
     searchKey: '',
@@ -97,21 +100,28 @@ export default {
     history: state => state.history,
   }),
   created() {
+    this.enableLoading();
     this.fetchNewsAndSources()
-      .catch(error => this.$toastr.e(error));
+      .catch(error => this.$toastr.e(error))
+      .finally(this.disableLoading);
   },
   methods: {
     ...mapActions(['fetchNewsAndSources', 'fetchNewsFromSource']),
     clearSource() {
       this.source = '';
       this.searchKey = '';
-      this.fetchNewsAndSources();
+      this.enableLoading();
+      this.fetchNewsAndSources()
+        .finally(this.disableLoading);
     },
     filterFromNewsList() {
+      this.enableLoading();
       this.fetchNewsFromSource({ source: this.source, searchKey: this.searchKey })
-        .catch(error => this.$toastr.e(error));
+        .catch(error => this.$toastr.e(error))
+        .finally(this.disableLoading);
     },
     sendWrongAPI() {
+      this.enableLoading();
       return errorCall()
         .then(res => res.json())
         .then((response) => {
@@ -119,7 +129,8 @@ export default {
             this.$toastr.e(response.message, response.code);
           }
         })
-        .catch(error => this.$toastr.e(error.message));
+        .catch(error => this.$toastr.e(error.message))
+        .finally(this.disableLoading);
     },
     handleShowDetail(detail) {
       this.selectedNews = detail;
@@ -127,3 +138,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.app-header {
+  z-index: 99;
+}
+</style>
