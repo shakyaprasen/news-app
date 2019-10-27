@@ -1,7 +1,16 @@
 import Vue from 'vue';
-import Vuetify from 'vuetify/lib';
+import Vuetify, {
+  VBtn, VIcon, VToolbar, VSpacer,
+} from 'vuetify/lib';
 
-Vue.use(Vuetify);
+Vue.use(Vuetify, {
+  components: {
+    VBtn,
+    VIcon,
+    VToolbar,
+    VSpacer,
+  },
+});
 
 export default new Vuetify({
   icons: {
