@@ -13,7 +13,7 @@
     <v-content id="sources">
       <loading :loading="loading" />
       <v-row v-if="$route.name === 'list'">
-        <v-col cols="4" class="pl-5">
+        <v-col cols="12" sm="6" md="2" lg="2" xl="2" class="pl-5">
           <v-overflow-btn
             :items="sources"
             label="Select Source"
@@ -23,25 +23,25 @@
             v-model="source"
           ></v-overflow-btn>
         </v-col>
-        <v-col cols="4" class="d-flex align-end">
+        <v-col cols="12" sm="6" md="2" lg="2" xl="2" class="d-flex align-end pl-5">
           <v-text-field
             v-model="searchKey"
             label="Search Text"
           ></v-text-field>
         </v-col>
-        <v-col cols="1" class="d-flex align-center">
+        <v-col cols="3" sm="3" md="1" lg="1" xl="1" class="d-flex align-center pl-5">
           <v-btn color="primary" @click="clearSource">
             Clear
           </v-btn>
         </v-col>
-        <v-col cols="2" class="d-flex align-center">
+        <v-col cols="3" sm="3" md="2" lg="1" xl="1" class="d-flex align-center">
           <v-btn color="red" @click="sendWrongAPI">
             ERROR API
           </v-btn>
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="3" class="pl-5">
+        <v-col cols="12" md="3" lg="3" xl="3" class="pl-5">
           <v-list>
             <v-subheader><b>HISTORY</b></v-subheader>
             <v-list-item

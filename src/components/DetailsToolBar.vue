@@ -2,7 +2,7 @@
   <v-toolbar min-width="100%">
     <div class="d-flex justify-space-between align-center news-header__toolbar">
       <h2 class="news-header__title" :title="props.details.title">{{ props.details.title }}</h2>
-      <div class="ml-4">
+      <div class="ml-4 d-flex">
         <v-btn icon @click="listeners['edit']()" title="Edit">
           <v-icon>mdi-file-edit-outline</v-icon>
         </v-btn>
